@@ -1,0 +1,29 @@
+{
+    "name": "Rust Web Server",
+    "image": "mcr.microsoft.com/devcontainers/rust:latest",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "rust-lang.rust-analyzer",
+                "vadimcn.vscode-lldb",
+                "serayuzgur.crates"
+            ],
+            "settings": {
+                "rust-analyzer.cargo.autoReload": true,
+                "editor.formatOnSave": true
+            }
+        }
+    },
+    "postCreateCommand": "cargo build",
+    "forwardPorts": [7878],
+    "portsAttributes": {
+        "7878": {
+            "label": "Rust Web Server",
+            "onAutoForward": "openBrowser"
+        }
+    },
+    "remoteUser": "vscode"
+}
