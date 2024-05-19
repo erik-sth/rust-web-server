@@ -51,8 +51,15 @@ fn handle_connection(mut stream: TcpStream) {
 
     let contents = fs::read_to_string(filename).unwrap_or_else(|_| String::from("File not found"));
     let length = contents.len();
+    let content_type = match filename {
+        f if f.ends_with(".html") => "text/html",
+        f if f.ends_with(".css") => "text/css",
+        _ => "text/plain",
+    };
 
-    let response = format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+    let response = format!(
+        "{status_line}\r\nContent-Length: {length}\r\nContent-Type: {content_type}\r\n\r\n{contents}"
+    );
 
     if let Err(e) = stream.write_all(response.as_bytes()) {
         eprintln!("Failed to send response: {}", e);
